@@ -1,0 +1,49 @@
+{
+  "name": "tensorflow-playground",
+  "version": "1.0.0",
+  "description": "My Tensorflow playground",
+  "scripts": {
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "npm run development -- --watch",
+    "watch-poll": "npm run watch -- --watch-poll",
+    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "npm run production",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prettier-fix": "prettier --write _dev/js/**/*.js",
+    "prettier-check": "prettier --list-different _dev/js/**/*.js",
+    "lint-fix": "eslint --fix _dev/js",
+    "lint-check": "eslint _dev/js",
+    "code-check": "eslint _dev/js && prettier --list-different _dev/**/*.js && sass-lint _dev/scss/**/*.scss -v -q -i _dev/scss/vendors/**/*",
+    "code-fix": "eslint --fix _dev/js && prettier --write _dev/**/*.js",
+    "style-check": "sass-lint _dev/scss/**/*.scss -v -q -i _dev/scss/vendors/**/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kWeb24/tensorflow-playground.git"
+  },
+  "author": "Kamil Weber",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kWeb24/tensorflow-playground/issues"
+  },
+  "homepage": "https://github.com/kWeb24/tensorflow-playground#readme",
+  "dependencies": {
+    "@tensorflow/tfjs": "^1.2.1",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^5.0.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-prettier": "^3.1.0",
+    "laravel-mix": "^4.0.16",
+    "phaser": "^3.18.1",
+    "prettier": "^1.18.2",
+    "sass-lint": "^1.13.1"
+  },
+  "devDependencies": {
+    "sass": "^1.21.0",
+    "sass-loader": "^7.1.0",
+    "vue-template-compiler": "^2.6.10"
+  }
+}

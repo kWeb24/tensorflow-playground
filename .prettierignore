@@ -1,0 +1,4 @@
+node_modules/**
+public/**
+_dev/scss/vendors/**
+vendor/**
