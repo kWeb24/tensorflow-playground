@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import GameScene from './Scenes/Game';
 
 export default class Game extends Phaser.Game {
   constructor() {
@@ -11,6 +12,8 @@ export default class Game extends Phaser.Game {
       height: window.innerHeight,
       canvas: gameCanvas,
       type: Phaser.CANVAS,
+      backgroundColor: '#a8d67e',
+      scene: [GameScene],
     };
 
     super(config);
