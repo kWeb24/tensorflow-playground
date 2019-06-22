@@ -32,4 +32,10 @@ export default class GameScene extends Phaser.Scene {
       this.add.existing(source);
     }
   }
+
+  update() {
+    this.bunnyPopulation.forEach((bunny) => {
+      bunny.update();
+    });
+  }
 }

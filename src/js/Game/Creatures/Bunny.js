@@ -7,4 +7,6 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
     const randY = getRandomInRange(0, window.innerHeight);
     super(scene, randX, randY, tex);
   }
+
+  update() {}
 }
