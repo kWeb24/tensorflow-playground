@@ -13,6 +13,7 @@
             require('../functions.php');
             get_part('topBar');
             get_part('canvasContainer');
+            get_part('sidebar');
         ?>
     </body>
     <script type="text/javascript" src="dist/js/app.js"></script>
