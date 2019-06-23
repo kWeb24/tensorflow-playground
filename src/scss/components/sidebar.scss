@@ -4,6 +4,8 @@
   right: 0;
   width: 320px;
   height: calc(100vh - 30px);
+  padding: 15px;
+  padding-top: 0;
   border-top: solid 1px rgba(255, 255, 255, 0.2);
   background: #494949;
   color: #fff;
@@ -11,4 +13,63 @@
   line-height: 12px;
   z-index: 9999;
   box-sizing: border-box;
+
+  $green: #4bed81;
+  $red: #ed4b68;
+
+  &__row {
+    display: block;
+    width: 100%;
+  }
+
+  &__header {
+    margin: 30px 0 10px;
+    font-weight: bold;
+  }
+
+  &__infoSpan {
+    margin: 0 3px;
+    color: #fff;
+    font-weight: normal;
+
+    &--green {
+      color: $green;
+    }
+
+    &--red {
+      color: $red;
+    }
+  }
+
+  &__populationList {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+
+  &__pop {
+    flex: 0 0 15px;
+    height: 15px;
+    margin: 2px;
+    background: #fff;
+    color: #000;
+    font-size: 10px;
+    text-align: center;
+
+    &--child {
+      background: $green;
+    }
+
+    &--dead {
+      background: $red;
+    }
+  }
+
+  &__canvas {
+    display: block;
+    width: 100%;
+  }
 }

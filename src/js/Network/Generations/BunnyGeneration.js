@@ -21,6 +21,7 @@ export default class BunnyGeneration {
     }
 
     this.dispatchCounters();
+    this.dispatchPopulationChanges();
   }
 
   pickOne() {
@@ -85,6 +86,7 @@ export default class BunnyGeneration {
     }
 
     this.dispatchCounters();
+    this.dispatchPopulationChanges();
   }
 
   dispatchCounters() {
@@ -95,5 +97,9 @@ export default class BunnyGeneration {
       population: this.population,
       progress: this.progress.toFixed(5),
     });
+  }
+
+  dispatchPopulationChanges() {
+    dispatchEvent('population-changes', { species: this.species });
   }
 }

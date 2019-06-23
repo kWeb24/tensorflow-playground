@@ -16,6 +16,8 @@ export default class BunnyBrain {
 
     // Execute and clear GPU memory
     tf.tidy(() => {
+      // This network is not good fit for the task
+      // Need to change it for Policy Network
       const inputLayer = tf.tensor(userInput, [1, this.inputNodes]);
       const hiddenLayer = inputLayer.matMul(this.inputWeights).sigmoid(); // Sigmoid - activation
       const outputLayer = hiddenLayer.matMul(this.outputWeights).sigmoid();

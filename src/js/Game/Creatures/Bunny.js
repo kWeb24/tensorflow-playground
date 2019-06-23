@@ -18,6 +18,8 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
     this.selectedTargetPos = null;
     this.selectedTargetObj = null;
     this.selectedTargetDist = null;
+
+    this.debug = true;
   }
 
   update() {
@@ -25,15 +27,15 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
     this.model.adjustScore();
 
     if (this.horizontal < 0.5) {
-      this.x -= 1;
+      this.x -= 2;
     } else if (this.horizontal > 0.5) {
-      this.x += 1;
+      this.x += 2;
     }
 
     if (this.vertical < 0.5) {
-      this.y -= 1;
+      this.y -= 2;
     } else if (this.vertical > 0.5) {
-      this.y += 1;
+      this.y += 2;
     }
 
     if (this.isFoodInRange()) {
@@ -47,6 +49,9 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
   }
 
   move(x, y) {
+    if (this.model.id === 0) {
+      // console.log(`move: ${x}/${y}`);
+    }
     this.horizontal = x;
     this.vertical = y;
   }
@@ -87,6 +92,7 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
   }
 
   drawDebugGraphics() {
+    if (!this.debug) return false;
     this.graphics = this.scene.add.graphics();
     this.graphics.strokeCircle(this.x, this.y, this.foodReachDistance);
     this.graphics.strokeCircle(this.x, this.y, this.visibilityRange);
@@ -96,6 +102,7 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
   }
 
   clearDebugGraphics(redraw = false) {
+    if (!this.debug) return false;
     if (this.graphics) {
       this.graphics.clear();
       this.graphics.destroy();

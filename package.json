@@ -30,6 +30,7 @@
   "homepage": "https://github.com/kWeb24/tensorflow-playground#readme",
   "dependencies": {
     "@tensorflow/tfjs": "^1.2.1",
+    "chart.js": "^2.8.0",
     "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",

@@ -1,3 +1,6 @@
+import FitnessChart from './FitnessChart';
+import GenotypeMapChart from './GenotypeMapChart';
+
 export default class Ui {
   constructor() {
     if (this.vars()) {
@@ -26,6 +29,8 @@ export default class Ui {
     this.mutationRate = document.getElementById(this.selectors.id.mutationRate);
     this.progress = document.getElementById(this.selectors.id.progress);
 
+    this.populationList = document.querySelector('.sidebar__populationList');
+
     if (
       !this.generation ||
       !this.highScore ||
@@ -33,10 +38,18 @@ export default class Ui {
       !this.population ||
       !this.epochLength ||
       !this.mutationRate ||
-      !this.progress
+      !this.progress ||
+      !this.populationList
     ) {
       return false;
     }
+
+    this.fragment = document.createDocumentFragment();
+    this.liPrefab = document.createElement('li');
+    this.liPrefab.classList.add('sidebar__pop');
+
+    this.fitnessChart = new FitnessChart();
+    this.genotypeMapChart = new GenotypeMapChart();
 
     return true;
   }
@@ -49,6 +62,7 @@ export default class Ui {
     window.addEventListener('mutation-rate', (e) => {
       this.mutationRate.innerText = e.detail.mutationRate;
     });
+    window.addEventListener('population-changes', (e) => this.updatePopulationMatrix(e));
   }
 
   updateBar(data) {
@@ -57,5 +71,20 @@ export default class Ui {
     this.avgScore.innerText = data.avgScore;
     this.population.innerText = data.population;
     this.progress.innerText = data.progress;
+  }
+
+  updatePopulationMatrix(e) {
+    this.fragment = document.createDocumentFragment();
+    this.populationList.innerHTML = '';
+    e.detail.species.forEach((specie) => {
+      const item = this.liPrefab.cloneNode(true, true);
+      if (specie.parents.length && specie.alive) {
+        item.classList.add('sidebar__pop--child');
+      } else if (!specie.alive) {
+        item.classList.add('sidebar__pop--dead');
+      }
+      this.fragment.append(item);
+    });
+    this.populationList.append(this.fragment);
   }
 }

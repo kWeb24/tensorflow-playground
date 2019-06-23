@@ -23,14 +23,14 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
-    this.bunnyGeneration = new BunnyGeneration(10, this, 'bunny');
+    this.bunnyGeneration = new BunnyGeneration(25, this, 'bunny');
     this.createFoodSources();
     this.createBunniesGeneration();
   }
 
   createFoodSources() {
     this.data.foods = this.add.group();
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 30; i++) {
       const source = new Food(this, 'food');
       this.foodSources.push(source);
       this.data.foods.add(source);

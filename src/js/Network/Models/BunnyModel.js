@@ -16,6 +16,7 @@ export default class BunnyModel {
     this.hiddenLayers = 100;
     this.outputLayers = 2;
     this.mutationRate = 0.05;
+    this.alive = true;
     this.brain = new BunnyBrain(this.inputLayers, this.hiddenLayers, this.outputLayers);
     this.body = new Bunny(scene, tex, this);
 
@@ -28,12 +29,7 @@ export default class BunnyModel {
     const foodPos = this.body.findFood();
     const closestFoodPositionX = foodPos ? foodPos.x : null;
     const closestFoodPositionY = foodPos ? foodPos.y : null;
-    const input = [
-      bodyPositionX / this.inputLayers,
-      bodyPositionY / this.inputLayers,
-      closestFoodPositionX / this.inputLayers,
-      closestFoodPositionY / this.inputLayers,
-    ];
+    const input = [bodyPositionX, bodyPositionY, closestFoodPositionX, closestFoodPositionY];
     const result = this.brain.predict(input);
     this.body.move(result[0], result[1]);
   }
@@ -101,7 +97,7 @@ export default class BunnyModel {
   }
 
   adjustScore() {
-    this.score = this.body.foodConsumed > 0 ? this.body.foodConsumed * 10 : 0.001;
+    this.score = this.body.foodConsumed > 0 ? this.body.foodConsumed * 10 : 0;
   }
 
   resurrect() {
