@@ -11,6 +11,7 @@
     <body>
         <?php
             require('../functions.php');
+            get_part('topBar');
             get_part('canvasContainer');
         ?>
     </body>

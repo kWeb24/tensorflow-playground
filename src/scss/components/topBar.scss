@@ -1,0 +1,29 @@
+.topBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 30px;
+  background: #494949;
+  color: #fff;
+  font-size: 12px;
+  line-height: 12px;
+  z-index: 9999;
+
+  &__content {
+    padding: 9px 15px;
+  }
+
+  &__list {
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+
+  &__item {
+    flex: 1;
+    text-align: center;
+  }
+}
