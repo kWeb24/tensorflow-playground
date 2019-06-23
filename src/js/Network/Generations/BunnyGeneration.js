@@ -74,7 +74,6 @@ export default class BunnyGeneration {
     }
 
     // Kill Current Generation.
-    // i.e. Remove their bodies from MatterJS World and dispose their brain
     for (let i = 0; i < this.population; i++) {
       this.species[i].kill();
     }

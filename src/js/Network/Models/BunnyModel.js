@@ -25,8 +25,9 @@ export default class BunnyModel {
   think() {
     const bodyPositionX = this.body.x;
     const bodyPositionY = this.body.y;
-    const closestFoodPositionX = this.body.findFood().x;
-    const closestFoodPositionY = this.body.findFood().y;
+    const foodPos = this.body.findFood();
+    const closestFoodPositionX = foodPos ? foodPos.x : null;
+    const closestFoodPositionY = foodPos ? foodPos.y : null;
     const input = [
       bodyPositionX / this.inputLayers,
       bodyPositionY / this.inputLayers,
@@ -102,8 +103,6 @@ export default class BunnyModel {
   adjustScore() {
     this.score = this.body.foodConsumed > 0 ? this.body.foodConsumed * 10 : 0.001;
   }
-
-  walk() {}
 
   resurrect() {
     this.body = new Bunny(this.scene, this.tex, this);

@@ -9,13 +9,15 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
     this.horizontal = 0;
     this.vertical = 0;
     this.model = model;
+    this.scene = scene;
+
     this.foodConsumed = 0;
+    this.visibilityRange = 100;
+    this.foodReachDistance = 10;
+
     this.selectedTargetPos = null;
     this.selectedTargetObj = null;
     this.selectedTargetDist = null;
-    this.foodReachDistance = 10;
-    this.scene = scene;
-    this.circleShape = new Phaser.Geom.Circle(this.x, this.y, this.foodReachDistance);
   }
 
   update() {
@@ -50,12 +52,16 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
   }
 
   findFood() {
+    this.selectedTargetObj = null;
+    this.selectedTargetPos = null;
     this.scene.data.foods.children.entries.forEach((children) => {
       const distance = Phaser.Math.Distance.Between(this.x, this.y, children.x, children.y);
-      if (!this.selectedTargetPos || distance < this.selectedTargetDist) {
-        this.selectedTargetPos = { x: children.x, y: children.y };
-        this.selectedTargetObj = children;
-        this.selectedTargetDist = distance;
+      if (distance < this.visibilityRange) {
+        if (!this.selectedTargetPos || distance < this.selectedTargetDist) {
+          this.selectedTargetPos = { x: children.x, y: children.y };
+          this.selectedTargetObj = children;
+          this.selectedTargetDist = distance;
+        }
       }
     });
 
@@ -65,12 +71,11 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
   eat() {
     this.foodConsumed++;
     this.scene.data.foods.remove(this.selectedTargetObj, true, true);
-    this.selectedTargetObj = null;
-    this.selectedTargetPos = null;
     this.findFood();
   }
 
   isFoodInRange() {
+    if (!this.selectedTargetPos) return false;
     return (
       Phaser.Math.Distance.Between(
         this.x,
@@ -84,6 +89,7 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
   drawDebugGraphics() {
     this.graphics = this.scene.add.graphics();
     this.graphics.strokeCircle(this.x, this.y, this.foodReachDistance);
+    this.graphics.strokeCircle(this.x, this.y, this.visibilityRange);
     if (this.selectedTargetPos) {
       this.graphics.lineBetween(this.x, this.y, this.selectedTargetPos.x, this.selectedTargetPos.y);
     }

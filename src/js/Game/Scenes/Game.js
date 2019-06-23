@@ -30,7 +30,7 @@ export default class GameScene extends Phaser.Scene {
 
   createFoodSources() {
     this.data.foods = this.add.group();
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 100; i++) {
       const source = new Food(this, 'food');
       this.foodSources.push(source);
       this.data.foods.add(source);
