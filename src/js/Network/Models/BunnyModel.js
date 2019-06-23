@@ -2,6 +2,7 @@ import * as tf from '@tensorflow/tfjs';
 import BunnyBrain from '../Brains/BunnyBrain';
 import Bunny from '../../Game/Creatures/Bunny';
 import { randomGaussian } from '../../Helpers/MathHelpers';
+import { dispatchEvent } from '../../Helpers/EventsHelper';
 
 export default class BunnyModel {
   constructor(id, scene, tex) {
@@ -14,8 +15,11 @@ export default class BunnyModel {
     this.inputLayers = 4;
     this.hiddenLayers = 100;
     this.outputLayers = 2;
+    this.mutationRate = 0.05;
     this.brain = new BunnyBrain(this.inputLayers, this.hiddenLayers, this.outputLayers);
     this.body = new Bunny(scene, tex, this);
+
+    dispatchEvent('mutation-rate', { mutationRate: `${this.mutationRate * 100}%` });
   }
 
   think() {
@@ -59,7 +63,7 @@ export default class BunnyModel {
 
   // approximator
   static fn(x, y) {
-    if (Math.random() < 0.05) {
+    if (Math.random() < this.mutationRate) {
       const offset = randomGaussian() * 0.5;
       const newx = x + offset;
       return newx;

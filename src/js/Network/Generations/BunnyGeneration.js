@@ -1,3 +1,5 @@
+import { dispatchEvent } from '../../Helpers/EventsHelper';
+
 export default class BunnyGeneration {
   constructor(population, scene, tex) {
     this.population = population;
@@ -17,6 +19,8 @@ export default class BunnyGeneration {
       const newBunny = new BunnyModel(i, this.scene, this.tex);
       this.species.push(newBunny);
     }
+
+    this.dispatchCounters();
   }
 
   pickOne() {
@@ -36,7 +40,6 @@ export default class BunnyGeneration {
   evolve() {
     // Store High Score
     this.generation += 1;
-    console.log(`Generation: ${this.generation} -----------`);
     const genHighscore = Math.max.apply(Math, this.species.map((creature) => creature.score));
     this.highScore = genHighscore > this.highScore ? genHighscore : this.highScore;
 
@@ -81,5 +84,17 @@ export default class BunnyGeneration {
     for (let i = 0; i < this.population; i++) {
       this.species[i].resurrect();
     }
+
+    this.dispatchCounters();
+  }
+
+  dispatchCounters() {
+    dispatchEvent('tob-bar-stats', {
+      generation: this.generation,
+      highScore: this.highScore.toFixed(5),
+      avgScore: this.avgScore.toFixed(5),
+      population: this.population,
+      progress: this.progress.toFixed(5),
+    });
   }
 }

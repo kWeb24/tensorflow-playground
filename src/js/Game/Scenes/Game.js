@@ -2,8 +2,9 @@ import Phaser from 'phaser';
 // import Bunny from '../Creatures/Bunny';
 import BunnyGeneration from '../../Network/Generations/BunnyGeneration';
 import BunnyModel from '../../Network/Models/BunnyModel';
-
 import Food from '../Resources/Food';
+
+import { dispatchEvent } from '../../Helpers/EventsHelper';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -13,6 +14,7 @@ export default class GameScene extends Phaser.Scene {
     this.epochLengthInSeconds = 5;
     this.msInSec = 1000;
     this.epochLength = this.epochLengthInSeconds * this.msInSec;
+    dispatchEvent('epoch-length', { epochLength: `${this.epochLengthInSeconds}s` });
   }
 
   preload() {

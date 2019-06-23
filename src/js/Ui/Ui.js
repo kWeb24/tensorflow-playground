@@ -35,7 +35,6 @@ export default class Ui {
       !this.mutationRate ||
       !this.progress
     ) {
-      console.log('killin');
       return false;
     }
 
@@ -43,6 +42,20 @@ export default class Ui {
   }
 
   setupEvents() {
-    console.log('dupa');
+    window.addEventListener('tob-bar-stats', (e) => this.updateBar(e.detail));
+    window.addEventListener('epoch-length', (e) => {
+      this.epochLength.innerText = e.detail.epochLength;
+    });
+    window.addEventListener('mutation-rate', (e) => {
+      this.mutationRate.innerText = e.detail.mutationRate;
+    });
+  }
+
+  updateBar(data) {
+    this.generation.innerText = data.generation;
+    this.highScore.innerText = data.highScore;
+    this.avgScore.innerText = data.avgScore;
+    this.population.innerText = data.population;
+    this.progress.innerText = data.progress;
   }
 }
