@@ -12,7 +12,7 @@ export default class BunnyModel {
     this.parents = [];
     this.scene = scene;
     this.tex = tex;
-    this.inputLayers = 4;
+    this.inputLayers = 5;
     this.hiddenLayers = 100;
     this.outputLayers = 2;
     this.mutationRate = 0.05;
@@ -29,7 +29,19 @@ export default class BunnyModel {
     const foodPos = this.body.findFood();
     const closestFoodPositionX = foodPos ? foodPos.x : null;
     const closestFoodPositionY = foodPos ? foodPos.y : null;
-    const input = [bodyPositionX, bodyPositionY, closestFoodPositionX, closestFoodPositionY];
+    const closestFoodDist = this.body.selectedTargetDist;
+    // const boundaryXMin = 0;
+    // const boundaryYMin = 0;
+    // const boundaryXMax = this.scene.game.renderer.width;
+    // const boundaryYMax = this.scene.game.renderer.height;
+
+    const input = [
+      bodyPositionX,
+      bodyPositionY,
+      closestFoodPositionX,
+      closestFoodPositionY,
+      closestFoodDist,
+    ];
     const result = this.brain.predict(input);
     this.body.move(result[0], result[1]);
   }
@@ -58,7 +70,6 @@ export default class BunnyModel {
     this.brain.outputWeights = tf.tensor(ho, hoShape);
   }
 
-  // approximator
   static fn(x, y) {
     if (Math.random() < this.mutationRate) {
       const offset = randomGaussian() * 0.5;

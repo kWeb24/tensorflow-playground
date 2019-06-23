@@ -85,14 +85,15 @@ export default class BunnyGeneration {
       this.species[i].resurrect();
     }
 
-    this.dispatchCounters();
+    this.dispatchCounters(genHighscore.toFixed(5));
     this.dispatchPopulationChanges();
   }
 
-  dispatchCounters() {
+  dispatchCounters(genHighscore = null) {
     dispatchEvent('tob-bar-stats', {
       generation: this.generation,
       highScore: this.highScore.toFixed(5),
+      highScorePerGen: genHighscore || this.highScore.toFixed(5),
       avgScore: this.avgScore.toFixed(5),
       population: this.population,
       progress: this.progress.toFixed(5),

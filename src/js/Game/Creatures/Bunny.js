@@ -3,8 +3,8 @@ import { getRandomInRange } from '../../Helpers/MathHelpers';
 
 export default class Bunny extends Phaser.GameObjects.Sprite {
   constructor(scene, tex, model) {
-    const randX = getRandomInRange(0, window.innerWidth);
-    const randY = getRandomInRange(0, window.innerHeight);
+    const randX = getRandomInRange(25, scene.game.renderer.width - 25);
+    const randY = getRandomInRange(25, scene.game.renderer.height - 25);
     super(scene, randX, randY, tex);
     this.horizontal = 0;
     this.vertical = 0;
@@ -14,6 +14,7 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
     this.foodConsumed = 0;
     this.visibilityRange = 100;
     this.foodReachDistance = 10;
+    this.speed = 5;
 
     this.selectedTargetPos = null;
     this.selectedTargetObj = null;
@@ -26,16 +27,19 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
     this.model.think();
     this.model.adjustScore();
 
-    if (this.horizontal < 0.5) {
-      this.x -= 2;
-    } else if (this.horizontal > 0.5) {
-      this.x += 2;
+    if (this.horizontal < -0.25 && this.x - this.speed > 20) {
+      this.x -= this.speed;
+    } else if (
+      this.horizontal > 0.25 &&
+      this.x + this.speed < this.scene.game.renderer.width - 20
+    ) {
+      this.x += this.speed;
     }
 
-    if (this.vertical < 0.5) {
-      this.y -= 2;
-    } else if (this.vertical > 0.5) {
-      this.y += 2;
+    if (this.vertical < -0.25 && this.y - this.speed > 20) {
+      this.y -= this.speed;
+    } else if (this.vertical > 0.25 && this.y + this.speed < this.scene.game.renderer.height - 20) {
+      this.y += this.speed;
     }
 
     if (this.isFoodInRange()) {
@@ -59,6 +63,7 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
   findFood() {
     this.selectedTargetObj = null;
     this.selectedTargetPos = null;
+    this.selectedTargetDist = null;
     this.scene.data.foods.children.entries.forEach((children) => {
       const distance = Phaser.Math.Distance.Between(this.x, this.y, children.x, children.y);
       if (distance < this.visibilityRange) {

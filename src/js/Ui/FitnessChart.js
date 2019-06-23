@@ -65,7 +65,7 @@ export default class FitnessChart {
   addGeneration(e) {
     const { labels, datasets } = this.config.data;
     labels.push(e.detail.generation);
-    datasets[0].data.push(e.detail.highScore);
+    datasets[0].data.push(e.detail.highScorePerGen);
     datasets[1].data.push(e.detail.avgScore);
     this.chart.update();
   }
