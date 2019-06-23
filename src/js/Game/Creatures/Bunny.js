@@ -12,7 +12,10 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
     this.foodConsumed = 0;
     this.selectedTargetPos = null;
     this.selectedTargetObj = null;
-    this.foodReachDistance = 100;
+    this.selectedTargetDist = null;
+    this.foodReachDistance = 10;
+    this.scene = scene;
+    this.circleShape = new Phaser.Geom.Circle(this.x, this.y, this.foodReachDistance);
   }
 
   update() {
@@ -31,25 +34,17 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
       this.y += 1;
     }
 
-    // console.log(
-    //   Phaser.Math.Distance.Between(
-    //     this.x,
-    //     this.y,
-    //     this.selectedTargetPos.x,
-    //     this.selectedTargetPos.y
-    //   )
-    // );
-    this.findFood();
     if (this.isFoodInRange()) {
       this.eat(this.selectedTargetObj);
     }
 
     this.horizontal = 0;
     this.vertical = 0;
+
+    this.clearDebugGraphics(true);
   }
 
   move(x, y) {
-    // console.log(`${x}/${y}`);
     this.horizontal = x;
     this.vertical = y;
   }
@@ -57,9 +52,10 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
   findFood() {
     this.scene.data.foods.children.entries.forEach((children) => {
       const distance = Phaser.Math.Distance.Between(this.x, this.y, children.x, children.y);
-      if (!this.selectedTargetPos || distance < this.selectedTargetPos) {
+      if (!this.selectedTargetPos || distance < this.selectedTargetDist) {
         this.selectedTargetPos = { x: children.x, y: children.y };
         this.selectedTargetObj = children;
+        this.selectedTargetDist = distance;
       }
     });
 
@@ -67,12 +63,11 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
   }
 
   eat() {
-    console.log('eat');
     this.foodConsumed++;
-    // this.selectedTargetObj.destroy();
     this.scene.data.foods.remove(this.selectedTargetObj, true, true);
     this.selectedTargetObj = null;
     this.selectedTargetPos = null;
+    this.findFood();
   }
 
   isFoodInRange() {
@@ -86,7 +81,25 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
     );
   }
 
+  drawDebugGraphics() {
+    this.graphics = this.scene.add.graphics();
+    this.graphics.strokeCircle(this.x, this.y, this.foodReachDistance);
+    if (this.selectedTargetPos) {
+      this.graphics.lineBetween(this.x, this.y, this.selectedTargetPos.x, this.selectedTargetPos.y);
+    }
+  }
+
+  clearDebugGraphics(redraw = false) {
+    if (this.graphics) {
+      this.graphics.clear();
+      this.graphics.destroy();
+    }
+
+    if (redraw) this.drawDebugGraphics();
+  }
+
   kill() {
+    this.clearDebugGraphics();
     this.destroy();
   }
 }

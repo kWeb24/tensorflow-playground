@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-// import Bunny from '../Creatures/Bunny';
 import BunnyGeneration from '../../Network/Generations/BunnyGeneration';
 import BunnyModel from '../../Network/Models/BunnyModel';
 import Food from '../Resources/Food';
@@ -24,9 +23,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
-    // const bunny = new Bunny(this, 'bunny');
-    // this.bunnyPopulation.push(bunny);
-    // this.add.existing(bunny);
     this.bunnyGeneration = new BunnyGeneration(10, this, 'bunny');
     this.createFoodSources();
     this.createBunniesGeneration();
@@ -34,12 +30,17 @@ export default class GameScene extends Phaser.Scene {
 
   createFoodSources() {
     this.data.foods = this.add.group();
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 5; i++) {
       const source = new Food(this, 'food');
       this.foodSources.push(source);
       this.data.foods.add(source);
       this.add.existing(source);
     }
+  }
+
+  removeFoodSources() {
+    this.data.foods.children.entries.forEach((food) => this.data.foods.remove(food, true, true));
+    this.foodSources.forEach((source) => source.destroy());
   }
 
   createBunniesGeneration() {
@@ -49,6 +50,8 @@ export default class GameScene extends Phaser.Scene {
     });
 
     setInterval(() => {
+      this.removeFoodSources();
+      this.createFoodSources();
       this.bunnyGeneration.evolve();
       this.bunnyGeneration.species.forEach((bunny) => {
         this.add.existing(bunny.body);
