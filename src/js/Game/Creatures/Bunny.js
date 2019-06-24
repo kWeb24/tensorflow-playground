@@ -27,6 +27,17 @@ export default class Bunny extends Phaser.Physics.Matter.Sprite {
     this.selectedTargetAngle = null;
 
     this.debug = true;
+
+    this.energy = 50;
+    this.maxEnergy = 100;
+    this.energyBar = {
+      length: 50,
+      height: 5,
+      offset: {
+        x: 25,
+        y: 15,
+      },
+    };
   }
 
   update() {
@@ -35,6 +46,12 @@ export default class Bunny extends Phaser.Physics.Matter.Sprite {
 
     this.thrust((this.maxThrust * (this.motorsThrust / 100)) / this.thrustRatio);
     this.angle += ((this.motorsDiff * 100) / this.turnRatio) * this.rotationDirection;
+
+    this.energy -= -0.001;
+
+    if (this.motorsThrust > 0) {
+      this.energy -= 0.1;
+    }
 
     if (this.isFoodInRange()) {
       this.eat(this.selectedTargetObj);
@@ -76,6 +93,7 @@ export default class Bunny extends Phaser.Physics.Matter.Sprite {
 
   eat() {
     this.foodConsumed++;
+    this.energy += 10;
     this.scene.data.foods.remove(this.selectedTargetObj, true, true);
     this.findFood();
   }
@@ -95,11 +113,34 @@ export default class Bunny extends Phaser.Physics.Matter.Sprite {
   drawDebugGraphics() {
     if (!this.debug) return false;
     this.graphics = this.scene.add.graphics();
+    this.graphics.lineStyle(1, 0x000000, 0.1);
     this.graphics.strokeCircle(this.x, this.y, this.foodReachDistance);
     this.graphics.strokeCircle(this.x, this.y, this.visibilityRange);
+
     if (this.selectedTargetPos) {
       this.graphics.lineBetween(this.x, this.y, this.selectedTargetPos.x, this.selectedTargetPos.y);
     }
+
+    this.graphics.lineStyle(1, 0x000000, 0.7);
+    this.graphics.strokeRect(
+      this.x - this.energyBar.offset.x,
+      this.y - this.energyBar.offset.y,
+      this.energyBar.length,
+      this.energyBar.height
+    );
+
+    this.graphics.fillStyle(0x42f4b3, 1.0);
+    this.graphics.fillRect(
+      this.x - this.energyBar.offset.x,
+      this.y - this.energyBar.offset.y,
+      this.getenergyBarWith(this.energy),
+      this.energyBar.height
+    );
+  }
+
+  getenergyBarWith(value) {
+    const percentage = (value * 100) / this.maxEnergy;
+    return this.energyBar.length * (percentage / 100);
   }
 
   clearDebugGraphics(redraw = false) {

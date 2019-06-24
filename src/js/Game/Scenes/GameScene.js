@@ -10,7 +10,7 @@ export default class GameScene extends Phaser.Scene {
     super({ key: 'GameScene' });
     this.bunnyGeneration = null;
     this.foodSources = [];
-    this.epochLengthInSeconds = 5;
+    this.epochLengthInSeconds = 15;
     this.msInSec = 1000;
     this.epochLength = this.epochLengthInSeconds * this.msInSec;
     dispatchEvent('epoch-length', { epochLength: `${this.epochLengthInSeconds}s` });
