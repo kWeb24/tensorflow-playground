@@ -1,24 +1,30 @@
 import Phaser from 'phaser';
 import { getRandomInRange } from '../../Helpers/MathHelpers';
 
-export default class Bunny extends Phaser.GameObjects.Sprite {
+export default class Bunny extends Phaser.Physics.Matter.Sprite {
   constructor(scene, tex, model) {
     const randX = getRandomInRange(25, scene.game.renderer.width - 25);
     const randY = getRandomInRange(25, scene.game.renderer.height - 25);
-    super(scene, randX, randY, tex);
-    this.horizontal = 0;
-    this.vertical = 0;
+    super(scene.matter.world, randX, randY, tex);
+    this.setFrictionAir(0.5);
+
     this.model = model;
     this.scene = scene;
 
     this.foodConsumed = 0;
     this.visibilityRange = 100;
-    this.foodReachDistance = 10;
-    this.speed = 5;
+    this.foodReachDistance = 20;
+    this.maxThrust = 10;
+    this.thrustRatio = 1000;
+    this.turnRatio = 10;
+    this.motorsDiff = 0;
+    this.motorsThrust = 0;
+    this.motorsDiffNegative = false;
 
     this.selectedTargetPos = null;
     this.selectedTargetObj = null;
     this.selectedTargetDist = null;
+    this.selectedTargetAngle = null;
 
     this.debug = true;
   }
@@ -27,43 +33,27 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
     this.model.think();
     this.model.adjustScore();
 
-    if (this.horizontal < -0.25 && this.x - this.speed > 20) {
-      this.x -= this.speed;
-    } else if (
-      this.horizontal > 0.25 &&
-      this.x + this.speed < this.scene.game.renderer.width - 20
-    ) {
-      this.x += this.speed;
-    }
-
-    if (this.vertical < -0.25 && this.y - this.speed > 20) {
-      this.y -= this.speed;
-    } else if (this.vertical > 0.25 && this.y + this.speed < this.scene.game.renderer.height - 20) {
-      this.y += this.speed;
-    }
+    this.thrust((this.maxThrust * (this.motorsThrust / 100)) / this.thrustRatio);
+    this.angle += ((this.motorsDiff * 100) / this.turnRatio) * this.rotationDirection;
 
     if (this.isFoodInRange()) {
       this.eat(this.selectedTargetObj);
     }
 
-    this.horizontal = 0;
-    this.vertical = 0;
-
     this.clearDebugGraphics(true);
   }
 
-  move(x, y) {
-    if (this.model.id === 0) {
-      // console.log(`move: ${x}/${y}`);
-    }
-    this.horizontal = x;
-    this.vertical = y;
+  move(motorA, motorB) {
+    this.motorsDiff = Math.abs(motorA - motorB);
+    this.motorsThrust = (((motorA + motorB) / 2) * 100) / this.maxThrust;
+    this.rotationDirection = motorA - motorB < 0 ? -1 : 1;
   }
 
   findFood() {
     this.selectedTargetObj = null;
     this.selectedTargetPos = null;
     this.selectedTargetDist = null;
+    this.selectedTargetAngle = null;
     this.scene.data.foods.children.entries.forEach((children) => {
       const distance = Phaser.Math.Distance.Between(this.x, this.y, children.x, children.y);
       if (distance < this.visibilityRange) {
@@ -71,6 +61,12 @@ export default class Bunny extends Phaser.GameObjects.Sprite {
           this.selectedTargetPos = { x: children.x, y: children.y };
           this.selectedTargetObj = children;
           this.selectedTargetDist = distance;
+          this.selectedTargetAngle = Phaser.Math.Angle.Between(
+            this.x,
+            this.y,
+            children.x,
+            children.y
+          );
         }
       }
     });

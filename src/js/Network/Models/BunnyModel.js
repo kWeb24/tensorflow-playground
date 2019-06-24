@@ -12,8 +12,8 @@ export default class BunnyModel {
     this.parents = [];
     this.scene = scene;
     this.tex = tex;
-    this.inputLayers = 5;
-    this.hiddenLayers = 100;
+    this.inputLayers = 2;
+    this.hiddenLayers = 4;
     this.outputLayers = 2;
     this.mutationRate = 0.05;
     this.alive = true;
@@ -24,24 +24,11 @@ export default class BunnyModel {
   }
 
   think() {
-    const bodyPositionX = this.body.x;
-    const bodyPositionY = this.body.y;
-    const foodPos = this.body.findFood();
-    const closestFoodPositionX = foodPos ? foodPos.x : null;
-    const closestFoodPositionY = foodPos ? foodPos.y : null;
+    this.body.findFood();
     const closestFoodDist = this.body.selectedTargetDist;
-    // const boundaryXMin = 0;
-    // const boundaryYMin = 0;
-    // const boundaryXMax = this.scene.game.renderer.width;
-    // const boundaryYMax = this.scene.game.renderer.height;
+    const relativeAngleToFood = this.body.selectedTargetAngle;
 
-    const input = [
-      bodyPositionX,
-      bodyPositionY,
-      closestFoodPositionX,
-      closestFoodPositionY,
-      closestFoodDist,
-    ];
+    const input = [relativeAngleToFood, closestFoodDist];
     const result = this.brain.predict(input);
     this.body.move(result[0], result[1]);
   }

@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import GameScene from './Scenes/Game';
+import GameScene from './Scenes/GameScene';
 
 export default class Game extends Phaser.Game {
   constructor() {
@@ -15,6 +15,15 @@ export default class Game extends Phaser.Game {
       canvas: gameCanvas,
       type: Phaser.CANVAS,
       backgroundColor: '#a8d67e',
+      physics: {
+        default: 'matter',
+        matter: {
+          gravity: {
+            x: 0,
+            y: 0,
+          },
+        },
+      },
       scene: [GameScene],
     };
 
