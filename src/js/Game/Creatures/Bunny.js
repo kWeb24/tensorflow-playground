@@ -28,6 +28,9 @@ export default class Bunny extends Phaser.Physics.Matter.Sprite {
 
     this.debug = true;
 
+    // Todo: Make them die and repdoduce
+    // based on energy counter
+    // and don't evolve whole generation at once
     this.energy = 50;
     this.maxEnergy = 100;
     this.energyBar = {
@@ -133,12 +136,12 @@ export default class Bunny extends Phaser.Physics.Matter.Sprite {
     this.graphics.fillRect(
       this.x - this.energyBar.offset.x,
       this.y - this.energyBar.offset.y,
-      this.getenergyBarWith(this.energy),
+      this.getEnergyBarWith(this.energy),
       this.energyBar.height
     );
   }
 
-  getenergyBarWith(value) {
+  getEnergyBarWith(value) {
     const percentage = (value * 100) / this.maxEnergy;
     return this.energyBar.length * (percentage / 100);
   }
