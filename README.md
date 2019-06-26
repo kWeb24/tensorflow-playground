@@ -38,7 +38,7 @@ First of all, you need some kind of local web server since Phaser requires it fo
 
 - Enter main directory and install dependencies with `npm i`
 - Type `npm run watch` for build and watching files
-- Open web public directory in web browser
+- Open public directory in web browser
 - Enjoy
 
 ## License
