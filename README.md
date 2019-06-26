@@ -1,6 +1,6 @@
 # Tensorflow playground
 
-This is WIP readme
+**This is WIP readme**
 
 This project is for learning tensorflow, neural networks and genetic algorighms. It's simple life game concept rendered with Phaser 3 and Matterjs.
 
