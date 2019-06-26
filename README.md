@@ -6,6 +6,12 @@ This project is for learning tensorflow, neural networks and genetic algorighms.
 
 **For fast-start scroll down to 'How to start' section**
 
+Live demo will come when the project leave early stage since it's too much effor to update it daily.
+
+But hey, here's the screenshot!
+
+![Screenshot](https://github.com/kWeb24/tensorflow-playground/raw/master/public/assets/screenshot.png)
+
 ## Goals for now
 
 - [x] Create working neural network that learns to gather food
