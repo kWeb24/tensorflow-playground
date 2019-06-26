@@ -14,11 +14,19 @@ But hey, here's the screenshot!
 
 ## Goals for now
 
-- [x] Create working neural network that learns to gather food
-- [x] Create genetic algorithm that evolves network by generations
 - [ ] Create creature lifecycle. Remove fixed generation length, make bunnies die and reproduce.
 - [ ] Add custom genome with properties like speed, visibility distance etc.
 - [ ] Create more variety in enviroment (dangers, hostile animals etc)
+
+## What is done
+
+- [x] Working neural network that learns to gather food
+- [x] Genetic algorithm that evolves network by generations
+- [x] Rendering and physics
+
+## Possible bugs
+
+- [ ] Whole game slows down to almost 0 speed around 100 generations. Check if that's physics bodies cleaning issues or network decision
 
 ## Network Description
 
