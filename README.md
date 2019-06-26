@@ -4,6 +4,8 @@
 
 This project is for learning tensorflow, neural networks and genetic algorighms. It's simple life game concept rendered with Phaser 3 and Matterjs.
 
+**For fast-start scroll down to 'How to start' section**
+
 ## Goals for now
 
 - [x] Create working neural network that learns to gather food
@@ -29,6 +31,15 @@ The network consist three layers:
 - Output layer with two nodes
   - First node with 0-1 output for left 'engine'
   - Second node with 0-1 output for second 'engine'
+
+## How to start
+
+First of all, you need some kind of local web server since Phaser requires it for assets loading. If you don't have one [Laragon](https://laragon.org/) is a good choice.
+
+- Enter main directory and install dependencies with `npm i`
+- Type `npm run watch` for build and watching files
+- Open web public directory in web browser
+- Enjoy
 
 ## License
 
