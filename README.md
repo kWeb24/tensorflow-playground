@@ -28,6 +28,23 @@ But hey, here's the screenshot!
 
 - [ ] Whole game slows down to almost 0 speed around 100 generations. Check if that's physics bodies cleaning issues or network decision
 
+## Enviroment lifecycle
+
+Still in progress but that's target features for this branch now.
+
+- 100 food sources is created
+- 25 bunnies is born each with `50/100` energy
+  - The 'living' cost is `0.001` energy per tick
+  - Movement cost is `0.1` energy per tick
+- When bunny energy reach `0` bunny dies
+  - Body creates `1` food source
+- When bunny eat food it gets `10` energy
+- When bunny energy reach `70/100` it is in reproduction age
+- Reproduction cost is `50` energy that is passed to the new bunny
+- In each epoch `5` foods grow up
+- Bunnies dies after `n` ticks (aging)
+- When bunnies population reach `0` simulation will reset
+
 ## Network Description
 
 Since this project purpose is only learning basic NN and GA concepts this network will evolve over time.
