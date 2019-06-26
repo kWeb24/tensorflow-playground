@@ -19,6 +19,7 @@ But hey, here's the screenshot!
 - [ ] Create creature lifecycle. Remove fixed generation length, make bunnies die and reproduce.
 - [ ] Add custom genome with properties like speed, visibility distance etc.
 - [ ] Create more variety in enviroment (dangers, hostile animals etc)
+- [ ] Make save/load network and genome state
 
 ## What is done
 
