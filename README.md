@@ -1,6 +1,8 @@
 # Tensorflow playground
 
-**This is WIP readme**
+## This is develop branch
+
+For the lates stable release [check master](https://github.com/kWeb24/tensorflow-playground/tree/master)
 
 This project is for learning tensorflow, neural networks and genetic algorighms. It's simple life game concept rendered with Phaser 3 and Matterjs.
 
