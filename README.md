@@ -17,6 +17,7 @@ But hey, here's the screenshot!
 - [ ] Add custom genome with properties like speed, visibility distance etc.
 - [ ] Create more variety in enviroment (dangers, hostile animals etc)
 - [ ] Make save/load network and genome state
+- [ ] Add bounding box as network input so the bunnies know why they're stuck
 
 ## What is done
 

@@ -19,7 +19,7 @@ export default class FitnessChart {
         labels: [],
         datasets: [
           {
-            label: 'HighScore',
+            label: 'GenHighScore',
             backgroundColor: '#4bed81',
             borderColor: '#4bed81',
             data: [],
@@ -29,6 +29,13 @@ export default class FitnessChart {
             label: 'AvgScore',
             backgroundColor: '#4bc4ed',
             borderColor: '#4bc4ed',
+            data: [],
+            fill: false,
+          },
+          {
+            label: 'AllHighScore',
+            backgroundColor: '#f2735c',
+            borderColor: '#f2735c',
             data: [],
             fill: false,
           },
@@ -67,6 +74,7 @@ export default class FitnessChart {
     labels.push(e.detail.generation);
     datasets[0].data.push(e.detail.highScorePerGen);
     datasets[1].data.push(e.detail.avgScore);
+    datasets[2].data.push(e.detail.highScore);
     this.chart.update();
   }
 }
