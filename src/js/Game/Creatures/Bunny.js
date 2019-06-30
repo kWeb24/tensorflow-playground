@@ -81,16 +81,13 @@ export default class Bunny extends Phaser.Physics.Matter.Sprite {
           this.selectedTargetPos = { x: children.x, y: children.y };
           this.selectedTargetObj = children;
           this.selectedTargetDist = distance;
-          this.selectedTargetAngle = Phaser.Math.Angle.Between(
-            this.x,
-            this.y,
-            children.x,
-            children.y
+          const angle = Phaser.Math.RadToDeg(
+            Phaser.Math.Angle.Between(this.x, this.y, children.x, children.y)
           );
+          this.selectedTargetAngle = Phaser.Math.Angle.ShortestBetween(this.angle, angle);
         }
       }
     });
-
     return this.selectedTargetPos;
   }
 
