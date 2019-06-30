@@ -28,6 +28,7 @@ But hey, here's the screenshot!
 ## Known issues
 
 - [ ] Population is really unstable at it's early stage
+- [ ] Game loop performance issue
 
 ## Enviroment lifecycle
 
