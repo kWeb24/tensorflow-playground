@@ -12,7 +12,7 @@ export default class Bunny extends Phaser.Physics.Matter.Sprite {
     this.scene = scene;
 
     this.foodConsumed = 0;
-    this.visibilityRange = 100;
+    this.visibilityRange = 250;
     this.foodReachDistance = 20;
     this.maxThrust = 10;
     this.thrustRatio = 1000;
@@ -49,12 +49,6 @@ export default class Bunny extends Phaser.Physics.Matter.Sprite {
 
     this.thrust((this.maxThrust * (this.motorsThrust / 100)) / this.thrustRatio);
     this.angle += ((this.motorsDiff * 100) / this.turnRatio) * this.rotationDirection;
-
-    this.energy -= -0.001;
-
-    if (this.motorsThrust > 0) {
-      this.energy -= 0.1;
-    }
 
     if (this.isFoodInRange()) {
       this.eat(this.selectedTargetObj);
@@ -170,5 +164,9 @@ export default class Bunny extends Phaser.Physics.Matter.Sprite {
 
   reproduce() {
     this.model.reproduce();
+  }
+
+  payLivingCost() {
+    this.energy -= 5;
   }
 }

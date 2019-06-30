@@ -60,6 +60,7 @@ export default class GameScene extends Phaser.Scene {
       this.createFoodSources(false, 5);
       this.bunnyGeneration.foodSources = this.data.foods.children.entries.length;
       this.bunnyGeneration.rateGeneration();
+      this.bunnyGeneration.species.forEach((specie) => specie.body.payLivingCost());
       // this.bunnyGeneration.evolve();
       // this.bunnyGeneration.species.forEach((bunny) => {
       //   this.add.existing(bunny.body);
