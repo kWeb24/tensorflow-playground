@@ -61,6 +61,12 @@ export default class Bunny extends Phaser.Physics.Matter.Sprite {
     }
 
     this.clearDebugGraphics(true);
+
+    if (this.energy <= 0) {
+      this.die();
+    } else if (this.energy >= 70) {
+      this.reproduce();
+    }
   }
 
   move(motorA, motorB) {
@@ -156,5 +162,13 @@ export default class Bunny extends Phaser.Physics.Matter.Sprite {
   killBunny() {
     this.clearDebugGraphics();
     this.destroy();
+  }
+
+  die() {
+    this.model.die();
+  }
+
+  reproduce() {
+    this.model.reproduce();
   }
 }

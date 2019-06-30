@@ -5,7 +5,7 @@ import { randomGaussian } from '../../Helpers/MathHelpers';
 import { dispatchEvent } from '../../Helpers/EventsHelper';
 
 export default class BunnyModel {
-  constructor(id, scene, tex) {
+  constructor(id, scene, tex, generation) {
     this.id = id;
     this.score = 0;
     this.fitness = 0;
@@ -19,6 +19,7 @@ export default class BunnyModel {
     this.alive = true;
     this.brain = new BunnyBrain(this.inputLayers, this.hiddenLayers, this.outputLayers);
     this.body = new Bunny(scene, tex, this);
+    this.generation = generation;
 
     dispatchEvent('mutation-rate', { mutationRate: `${this.mutationRate * 100}%` });
   }
@@ -34,7 +35,7 @@ export default class BunnyModel {
   }
 
   clone() {
-    const clone = new BunnyModel(this.id, this.scene, this.tex);
+    const clone = new BunnyModel(this.id, this.scene, this.tex, this.generation);
     clone.brain.dispose();
     clone.body.killBunny();
     clone.brain = this.brain.clone();
@@ -105,5 +106,28 @@ export default class BunnyModel {
 
   update() {
     this.body.update();
+  }
+
+  die() {
+    this.generation.remove(this.id);
+  }
+
+  setIndex(index) {
+    this.id = index;
+  }
+
+  reproduce() {
+    this.generation.calcFitness();
+    const partner = this.generation.pickOne();
+    const child = this.crossover(partner);
+    child.mutate();
+    child.id = this.generation.species.length + 1;
+    child.parents = [{ id: this.id, score: this.score }, { id: partner.id, score: partner.score }];
+    child.resurrect();
+    child.body.energy = 50;
+    this.body.energy -= 30;
+    this.generation.species.push(child);
+    this.generation.refreshPopulation();
+    this.scene.add.existing(child.body);
   }
 }

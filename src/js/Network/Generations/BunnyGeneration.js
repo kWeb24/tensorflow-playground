@@ -2,6 +2,7 @@ import { dispatchEvent } from '../../Helpers/EventsHelper';
 
 export default class BunnyGeneration {
   constructor(population, scene, tex) {
+    this.initialPopulation = population;
     this.population = population;
     this.species = [];
     this.generation = 1;
@@ -10,13 +11,14 @@ export default class BunnyGeneration {
     this.totalScore = 0;
     this.fitness = 0;
     this.progress = 0;
+    this.foodSources = 0;
     this.scene = scene;
     this.tex = tex;
   }
 
   init(BunnyModel) {
     for (let i = 0; i < this.population; i++) {
-      const newBunny = new BunnyModel(i, this.scene, this.tex);
+      const newBunny = new BunnyModel(i, this.scene, this.tex, this);
       this.species.push(newBunny);
     }
 
@@ -33,31 +35,35 @@ export default class BunnyGeneration {
     }
 
     index -= 1;
-
     const selected = this.species[index].clone();
     return selected;
   }
 
-  evolve() {
-    // Store High Score
+  calcGenerationHighScore() {
     this.generation += 1;
     const genHighscore = Math.max.apply(Math, this.species.map((creature) => creature.score));
     this.highScore = genHighscore > this.highScore ? genHighscore : this.highScore;
+    return genHighscore;
+  }
 
-    // Calculate Total Score of this Generation
+  calcTotalScore() {
     let totalScore = 0;
     this.species.forEach((creature) => {
       totalScore += creature.score;
     });
+    return totalScore;
+  }
 
-    // Assign Fitness to each creature
+  calcFitness() {
+    const totalScore = this.calcTotalScore();
     this.progress = totalScore / this.population - this.avgScore;
     this.avgScore = totalScore / this.population;
     for (let i = 0; i < this.population; i++) {
       this.species[i].fitness = this.species[i].score / totalScore;
     }
+  }
 
-    // Store new generation temporarily in this array
+  createNewGeneration() {
     const newGeneration = [];
 
     // Breeding
@@ -74,14 +80,20 @@ export default class BunnyGeneration {
       newGeneration.push(child);
     }
 
-    // Kill Current Generation.
-    for (let i = 0; i < this.population; i++) {
+    return newGeneration;
+  }
+
+  evolve() {
+    const genHighscore = this.calcGenerationHighScore();
+    this.calcFitness();
+    const newGeneration = this.createNewGeneration();
+
+    for (let i = 0; i < this.initialPopulation; i++) {
       this.species[i].kill();
     }
 
-    // Add new children to the current generation
     this.species = newGeneration;
-    for (let i = 0; i < this.population; i++) {
+    for (let i = 0; i < this.initialPopulation; i++) {
       this.species[i].resurrect();
     }
 
@@ -97,10 +109,29 @@ export default class BunnyGeneration {
       avgScore: this.avgScore.toFixed(5),
       population: this.population,
       progress: this.progress.toFixed(5),
+      sources: this.foodSources,
     });
   }
 
   dispatchPopulationChanges() {
     dispatchEvent('population-changes', { species: this.species });
+  }
+
+  remove(id) {
+    this.species[id].kill();
+    this.species.splice(id, 1);
+    this.refreshPopulation();
+  }
+
+  refreshPopulation() {
+    this.species.forEach((specie, index) => specie.setIndex(index));
+    this.population = this.species.length;
+  }
+
+  rateGeneration() {
+    const genHighscore = this.calcGenerationHighScore();
+    this.calcFitness();
+    this.dispatchCounters(genHighscore.toFixed(5));
+    this.dispatchPopulationChanges();
   }
 }

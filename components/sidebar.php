@@ -13,6 +13,13 @@
 
   <div class="sidebar__row">
     <div class="sidebar__header">
+      Population:
+    </div>
+    <canvas id="sidebar__population" class="sidebar__canvas"></canvas>
+  </div>
+
+  <div class="sidebar__row">
+    <div class="sidebar__header">
       Fitness:
     </div>
     <canvas id="sidebar__fitness" class="sidebar__canvas"></canvas>

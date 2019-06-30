@@ -1,3 +1,4 @@
+import PopulationChart from './PopulationChart';
 import FitnessChart from './FitnessChart';
 import GenotypeMapChart from './GenotypeMapChart';
 
@@ -48,6 +49,7 @@ export default class Ui {
     this.liPrefab = document.createElement('li');
     this.liPrefab.classList.add('sidebar__pop');
 
+    this.populationChart = new PopulationChart();
     this.fitnessChart = new FitnessChart();
     this.genotypeMapChart = new GenotypeMapChart();
 
