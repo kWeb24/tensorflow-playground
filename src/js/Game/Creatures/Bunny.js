@@ -153,7 +153,7 @@ export default class Bunny extends Phaser.Physics.Matter.Sprite {
     if (redraw) this.drawDebugGraphics();
   }
 
-  kill() {
+  killBunny() {
     this.clearDebugGraphics();
     this.destroy();
   }

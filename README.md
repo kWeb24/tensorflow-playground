@@ -29,7 +29,7 @@ But hey, here's the screenshot!
 
 ## Possible bugs
 
-- [ ] Whole game slows down to almost 0 speed around 100 generations. Check if that's physics bodies cleaning issues or network decision
+- [x] Fixed: Whole game slows down to almost 0 speed around 100 generations. Check if that's physics bodies cleaning issues or network decision
 
 ## Enviroment lifecycle
 

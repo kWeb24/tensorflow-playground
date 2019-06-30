@@ -24,13 +24,16 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     this.bunnyGeneration = new BunnyGeneration(25, this, 'bunny');
-    this.createFoodSources();
+    this.createFoodSources(true);
     this.createBunniesGeneration();
     this.matter.world.setBounds();
   }
 
-  createFoodSources() {
-    this.data.foods = this.add.group();
+  createFoodSources(createGroup = false) {
+    if (createGroup) {
+      this.data.foods = this.add.group();
+    }
+
     for (let i = 0; i < 100; i++) {
       const source = new Food(this, 'food');
       this.foodSources.push(source);
@@ -40,7 +43,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   removeFoodSources() {
-    this.data.foods.children.entries.forEach((food) => this.data.foods.remove(food, true, true));
+    this.data.foods.clear(true);
     this.foodSources.forEach((source) => source.destroy());
   }
 

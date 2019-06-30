@@ -36,13 +36,14 @@ export default class BunnyModel {
   clone() {
     const clone = new BunnyModel(this.id, this.scene, this.tex);
     clone.brain.dispose();
+    clone.body.killBunny();
     clone.brain = this.brain.clone();
     return clone;
   }
 
   kill() {
     this.brain.dispose();
-    this.body.kill();
+    this.body.killBunny();
   }
 
   mutate() {
