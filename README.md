@@ -12,7 +12,7 @@ Live demo will come when the project leave early stage since it's too much effor
 
 But hey, here's the screenshot!
 
-![Screenshot](https://github.com/kWeb24/tensorflow-playground/raw/master/public/assets/screenshot.png)
+![Screenshot](https://github.com/kWeb24/tensorflow-playground/raw/develop/public/assets/screenshot.png)
 
 ## Goals for now
 
